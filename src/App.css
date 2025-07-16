@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.chat-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.open-modal-btn {
+  margin: 15px;
+  padding: 10px 16px;
+  background-color: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.chat-room {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .chat-container {
+    height: auto;
+  }
+  .chat-list {
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .chat-list-item {
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+  }
+  .chat-user-name {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  .last-seen {
+    display: none;
+  }
+  .messages-container {
+    padding: 0.5rem;
+  }
+  .message-content {
+    max-width: 85%;
+  }
+}
