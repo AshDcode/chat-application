@@ -1,0 +1,105 @@
+.signin-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.signin-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+signin-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.signin-input {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.signin-button {
+  background-color: #007bff;
+  margin-top: 10px;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signin-button:hover {
+  background-color: #0056b3;
+}
+
+.google-section {
+  margin-top: 16px;
+}
+
+.or-text {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.google-button:hover {
+  background-color: #f5f5f5;
+}
+
+.google-icon {
+  width: 20px;
+  margin-right: 8px;
+}
+
+.switch-auth {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.switch-link:hover {
+  color: #0056b3;
+}
