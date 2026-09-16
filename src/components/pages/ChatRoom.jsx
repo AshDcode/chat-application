@@ -1,7 +1,7 @@
 import { formatChatDate } from "../../utils/formatDate";
 import { useEffect, useRef, useState } from "react"
 import { auth, db, rtdb } from "../../firebaseConfig";
-import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore";
 import { ref as dbRef, set, onValue, remove } from "firebase/database";
 import "./ChatRoom.css";
 
@@ -61,19 +61,20 @@ const ChatRoom = ({ selectedUser }) => {
 
         const chatRef = doc(db, "chats", chatId);
         console.log("sending msg, chatId:", chatId);
-        // check if chat document exist create if  not
+
         try {
-            const chatSnap = await getDoc(chatRef);
-            if (!chatSnap.exists()) {
-                console.log("Creating new chat doc", chatId);
-                await setDoc(chatRef, {
+            await setDoc(
+                chatRef,
+                {
                     participants: [currentUserId, otherUserId],
                     createdAt: serverTimestamp(),
-                });
-            }
+                },
+                { merge: true }
+            );
             console.log("Current user ID:", auth.currentUser?.uid);
             // send message
             console.log("Adding message in:", chatId);
+
             await addDoc(collection(db, "chats", chatId, "messages"), {
                 text: input,
                 uid: auth.currentUser.uid,
@@ -97,7 +98,7 @@ const ChatRoom = ({ selectedUser }) => {
         setInput(e.target.value);
 
         // Show typing status
-        const typingRef = dbRef(rtdb, `/typing/${otherUserId}`);
+        const typingRef = dbRef(rtdb, `/typing/${otherUserId}/${currentUserId}`);
         set(typingRef, {
             uid: currentUserId,
             displayName: auth.currentUser.displayName || "You"
@@ -111,23 +112,27 @@ const ChatRoom = ({ selectedUser }) => {
     };
 
     useEffect(() => {
-        if (!otherUserId) return;
+        if (!currentUserId || !otherUserId) return;
 
-        const typingRef = dbRef(rtdb, `/typing/${currentUserId}`);
+        const typingRef = dbRef(
+            rtdb,
+            `/typing/${currentUserId}/${otherUserId}`
+        );
+
         const unsubscribe = onValue(typingRef, (snapshot) => {
             const data = snapshot.val();
+
             if (data) {
-                setTypingUserName(data.displayName);
+                setTypingUserName(data.displayName || "User");
                 setIsTyping(true);
             } else {
                 setIsTyping(false);
+                setTypingUserName("");
             }
         });
 
         return () => unsubscribe();
     }, [currentUserId, otherUserId]);
-
-
 
     if (!currentUserId || !otherUserId) {
         return (
@@ -178,7 +183,7 @@ const ChatRoom = ({ selectedUser }) => {
                                             Sent: {formatChatDate(msg.createdAt.toDate())}
                                         </small>
                                     )}
-                                    {msg.isRead && (
+                                    {isOwnMessage && msg.isRead && (
                                         <small style={{ color: "green", fontSize: "0.75rem", marginLeft: "0.5rem" }}>
                                             ✓ Read
                                         </small>
